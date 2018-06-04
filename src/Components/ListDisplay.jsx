@@ -14,12 +14,12 @@ class ListDisplay extends React.Component {
                 padding: '3px 5px',
                 cursor: completed ? 'default' : 'pointer',
               }}
-              onClick={() => this.props.completeTodo(task)}
+              onClick={() => this.props.completeTask(idx)}
               disabled={completed}
               >
                 Complete
               </button>
-              <button onClick={() => this.props.destroyTodo(idx)} >
+              <button onClick={() => this.props.destroyTask(idx)} >
                 X
               </button>
           </div>

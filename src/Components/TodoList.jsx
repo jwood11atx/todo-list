@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import ListDisplay from './ListDisplay.jsx';
 
@@ -7,20 +8,17 @@ class TodoList extends React.Component {
     super();
 
     this.state = {
-      tasks: [],
       taskInput: '',
     };
 
     this.taskInputChange = this.taskInputChange.bind(this);
-    this.createTodo = this.createTodo.bind(this);
-    this.completeTodo = this.completeTodo.bind(this);
-    this.destroyTodo = this.destroyTodo.bind(this);
+    this.submitTask = this.submitTask.bind(this);
   }
 
   componentDidMount() {
     const taskInputField = document.getElementsByClassName('add-task')[0];
     taskInputField.addEventListener('keyup', (e) => {
-      if (e.keyCode === 13) this.createTodo(e);
+      if (e.keyCode === 13) this.submitTask();
     });
   }
 
@@ -28,37 +26,17 @@ class TodoList extends React.Component {
     this.setState({ taskInput: e.target.value });
   }
 
-  createTodo(e) {
-    if (this.state.taskInput) {
-      const tasks = [...this.state.tasks];
+  clearInput() {
+    this.setState({ taskInput: '' });
+  }
 
-      tasks.push({
-        id: Date.now(),
-        title: this.state.taskInput,
-        completed: false,
-      });
-
-      this.setState({ tasks, taskInput: '' });
+  submitTask() {
+    const { taskInput } = this.state;
+    if (taskInput) {
+      this.props.createTask(taskInput);
+      this.clearInput();
       document.getElementsByClassName('add-task')[0].focus();
     }
-  }
-
-  completeTodo(todo) {
-    const { tasks } = this.state;
-    todo.completed = true;
-
-    this.setState({ tasks });
-  }
-
-  destroyTodo(idx) {
-    const { tasks } = this.state;
-
-    this.setState({
-      tasks: [
-        ...tasks.slice(0, idx),
-        ...tasks.slice(idx + 1, tasks.length),
-      ],
-    });
   }
 
   render() {
@@ -82,7 +60,7 @@ class TodoList extends React.Component {
                 padding: 10,
                 fontSize: 12,
               }}
-              onClick={this.createTodo}
+              onClick={this.submitTask}
               disabled={!this.state.taskInput}
               >
                 Add new To-do
@@ -90,13 +68,19 @@ class TodoList extends React.Component {
             </div>
         </div>
         <ListDisplay
-          tasks={this.state.tasks}
-          destroyTodo={this.destroyTodo}
-          completeTodo={this.completeTodo}
+          tasks={this.props.tasks}
+          destroyTask={this.props.destroyTask}
+          completeTask={this.props.completeTask}
         />
       </div>
     );
   };
+};
+
+TodoList.propTypes = {
+  createTask: PropTypes.func.isRequired,
+  destroyTask: PropTypes.func.isRequired,
+  completeTask: PropTypes.func.isRequired,
 };
 
 export default TodoList;
