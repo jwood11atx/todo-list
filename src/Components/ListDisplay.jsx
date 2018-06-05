@@ -5,7 +5,7 @@ import TaskItem from '../containers/TaskItemContainer';
 class ListDisplay extends React.Component {
   displayTasks() {
     return (this.props.tasks.map((task) => {
-      return <TaskItem task={task} redirect={this.props.redirect} />;
+      return <TaskItem task={task} redirect={this.props.redirect} key={`task_${task.id}`}/>;
     }));
   }
 

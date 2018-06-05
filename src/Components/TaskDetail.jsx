@@ -94,7 +94,7 @@ class TaskDetail extends React.Component {
             size='small'
             color='primary'
             onClick={() => {
-              const { id, title, description, completed } = this.state;
+              const { id, title, description } = this.state;
               this.props.updateTask({ id, title, description });
               this.setState({ redirect: true });
             }}
