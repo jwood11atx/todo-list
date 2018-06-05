@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import ListDisplay from './ListDisplay.jsx';
 
@@ -75,12 +74,6 @@ class TodoList extends React.Component {
       </div>
     );
   };
-};
-
-TodoList.propTypes = {
-  createTask: PropTypes.func.isRequired,
-  destroyTask: PropTypes.func.isRequired,
-  completeTask: PropTypes.func.isRequired,
 };
 
 export default TodoList;
