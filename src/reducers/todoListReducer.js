@@ -1,37 +1,29 @@
 const initialState = {
   tasks: [],
+  selectedTaskId: null,
+  selectedTask: {},
 };
 
 const todoList = (state = initialState, action) => {
-  const tasks = [...state.tasks];
-
   switch (action.type) {
-    case 'CREATE_TODO': {
-      tasks.push({
-        id: Date.now(),
-        title: action.payload,
-        completed: false,
-      });
-
-      return { tasks };
+    case 'LOAD_TASKS': {
+      const { selectedTaskId } = state;
+      if (selectedTaskId) {
+        const tasks = action.payload;
+        const idx = tasks.findIndex(task => task.id === selectedTaskId);
+        const selectedTask = tasks[idx];
+        return { ...state, tasks, selectedTask }
+      }
+      return { ...state, tasks: action.payload };
     }
-    case 'DESTROY_TODO': {
-      const idx = action.payload;
-
+    case 'SELECT_TASK': {
       return {
-        tasks: [
-          ...tasks.slice(0, idx),
-          ...tasks.slice(idx + 1, tasks.length),
-        ]
-      };
+        ...state,
+        selectedTaskId: action.payload.id,
+        selectedTask: action.payload,
+      }
     }
-    case 'COMPLETE_TODO': {
-      const idx = action.payload;
 
-      tasks[idx].completed = true;
-
-      return { tasks };
-    }
     default:
       return state;
   }

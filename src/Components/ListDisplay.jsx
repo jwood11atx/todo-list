@@ -1,30 +1,11 @@
 import React from 'react';
 
+import TaskItem from '../containers/TaskItemContainer';
+
 class ListDisplay extends React.Component {
   displayTasks() {
-    return (this.props.tasks.map((task, idx) => {
-      const { title, completed } = task;
-      return(
-        <div className={`task-item ${completed && "task-completed"}`} key={`task_${idx}`}>
-          <span className="task-title">{title}</span>
-          <div className="task-btn-wrapper">
-            <button
-              style={{
-                backgroundColor: 'rgba(0,0,0,0.15)',
-                padding: '3px 5px',
-                cursor: completed ? 'default' : 'pointer',
-              }}
-              onClick={() => this.props.completeTask(idx)}
-              disabled={completed}
-              >
-                Complete
-              </button>
-              <button onClick={() => this.props.destroyTask(idx)} >
-                X
-              </button>
-          </div>
-        </div>
-      );
+    return (this.props.tasks.map((task) => {
+      return <TaskItem task={task} redirect={this.props.redirect} />;
     }));
   }
 

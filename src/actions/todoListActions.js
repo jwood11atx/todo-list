@@ -1,18 +1,8 @@
-const CREATE_TODO = 'CREATE_TODO';
-const DESTROY_TODO = 'DESTROY_TODO';
-const COMPLETE_TODO = 'COMPLETE_TODO';
+import * as types from './';
 
-export const createTask = (taskInput) => ({
-  type: CREATE_TODO,
-  payload: taskInput,
-});
-
-export const destroyTask = (idx) => ({
-  type: DESTROY_TODO,
-  payload: idx,
-});
-
-export const completeTask = (idx) => ({
-  type: COMPLETE_TODO,
-  payload: idx,
-});
+export const getTasks = () => ({ type: types.GET_TASKS });
+export const createTask = taskInput => ({ type: types.CREATE_TASK, payload: taskInput });
+export const destroyTask = id => ({ type: types.DESTROY_TASK, payload: id });
+export const completeTask = id => ({ type: types.COMPLETE_TASK, payload: id });
+export const updateTask = task => ({ type: types.UPDATE_TASK, payload: task });
+export const selectTask = task => ({ type: types.SELECT_TASK, payload: task });

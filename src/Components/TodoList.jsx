@@ -1,5 +1,5 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import { Redirect } from 'react-router-dom'
 
 import ListDisplay from './ListDisplay.jsx';
 
@@ -9,10 +9,12 @@ class TodoList extends React.Component {
 
     this.state = {
       taskInput: '',
+      redirect: false,
     };
 
     this.taskInputChange = this.taskInputChange.bind(this);
     this.submitTask = this.submitTask.bind(this);
+    this.redirect = this.redirect.bind(this);
   }
 
   componentDidMount() {
@@ -20,6 +22,8 @@ class TodoList extends React.Component {
     taskInputField.addEventListener('keyup', (e) => {
       if (e.keyCode === 13) this.submitTask();
     });
+
+    this.props.getTasks();
   }
 
   taskInputChange(e) {
@@ -39,7 +43,16 @@ class TodoList extends React.Component {
     }
   }
 
+  redirect(task) {
+    this.props.selectTask(task)
+    this.setState({ redirect: true, taskId: task.id });
+  }
+
   render() {
+    if (this.state.redirect) {
+      return <Redirect push to={`/task/${this.state.taskId}`} />
+    }
+
     return (
       <div className="todo-list-wrapper">
         <div className="todo-list-header">
@@ -69,18 +82,11 @@ class TodoList extends React.Component {
         </div>
         <ListDisplay
           tasks={this.props.tasks}
-          destroyTask={this.props.destroyTask}
-          completeTask={this.props.completeTask}
+          redirect={this.redirect}
         />
       </div>
     );
   };
-};
-
-TodoList.propTypes = {
-  createTask: PropTypes.func.isRequired,
-  destroyTask: PropTypes.func.isRequired,
-  completeTask: PropTypes.func.isRequired,
 };
 
 export default TodoList;
