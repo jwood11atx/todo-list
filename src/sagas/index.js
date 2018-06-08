@@ -1,8 +1,6 @@
 import { fork } from 'redux-saga/effects'
 
 import * as watchers from './watchers';
-require('es6-promise').polyfill();
-require('isomorphic-fetch');
 
 export default function* root() {
   yield [

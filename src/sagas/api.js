@@ -1,3 +1,6 @@
+require('es6-promise').polyfill();
+require('isomorphic-fetch');
+
 export const getTasksAPI = () => {
   return fetch('https://practiceapi.devmountain.com/api/tasks')
   .then((res) => {
